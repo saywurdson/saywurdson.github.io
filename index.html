@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kwasi Agyeman, PharmD — Clinical Informatics / Healthcare Data Engineering</title>
+  <title>Kwasi Agyeman, PharmD — Healthcare Data Engineering</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
@@ -268,6 +268,35 @@
     .edu-line { margin-bottom: 10px; }
     .edu-line:last-child { margin-bottom: 0; }
     .edu-line .school { color: var(--text-mid); font-size: 0.85rem; }
+
+    .focus-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .focus-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: var(--text);
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: border-color 0.2s;
+    }
+
+    .focus-item:hover {
+      border-color: var(--accent-border);
+    }
+
+    .focus-icon {
+      color: var(--accent);
+      font-size: 0.55rem;
+      flex-shrink: 0;
+    }
 
     .about-card.full {
       grid-column: 1 / -1;
@@ -554,7 +583,7 @@
     </h1>
     <p class="hero-bio">
       Pharmacist, Clinical Informaticist, and Healthcare Data Engineer. I build pipelines that transform 
-      raw clinical and claims data into standardized, research-ready models — bridging 
+      raw clinical, genomic and claims data into standardized, research-ready models — bridging 
       clinical domain expertise with modern data infrastructure.
     </p>
     <div class="hero-links">
@@ -590,13 +619,28 @@
       </div>
       <div class="about-card">
         <h3>Focus Areas</h3>
-        <p>
-          Clinical Data Standardization<br>
-          OMOP CDM &amp; Vocabulary Mapping<br>
-          Healthcare NLP &amp; Data Pipelines<br>
-          EHR Systems &amp; Epic Willow<br>
-          Clinical Terminology Standards
-        </p>
+        <div class="focus-list">
+          <div class="focus-item">
+            <span class="focus-icon">◆</span>
+            <span>Clinical Data Standardization</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-icon">◆</span>
+            <span>OMOP CDM &amp; Vocabulary Mapping</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-icon">◆</span>
+            <span>Healthcare NLP &amp; Data Pipelines</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-icon">◆</span>
+            <span>EHR Systems &amp; Epic Willow</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-icon">◆</span>
+            <span>Clinical Terminology Standards</span>
+          </div>
+        </div>
       </div>
       <div class="about-card full">
         <h3>Technical Skills</h3>
@@ -709,7 +753,7 @@
   <section id="contact" class="fade-in">
     <div class="section-tag" style="justify-content: center;">Get in Touch</div>
     <h2>Let's Connect</h2>
-    <p>I'm always open to new opportunities and collaborations in healthcare data.</p>
+    <p>I'm always open to new opportunities and collaborations.</p>
     <div class="contact-links">
       <a href="https://www.linkedin.com/in/kwasi-a-2853ba21a/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
