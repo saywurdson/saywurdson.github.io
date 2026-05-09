@@ -1,786 +1,1118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kwasi Agyeman, PharmD — Healthcare Data Engineering</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0C0E13;
-      --bg-card: #13161D;
-      --bg-card-hover: #191D27;
-      --border: #1F2430;
-      --border-light: #2A3040;
-      --text: #E4E7EE;
-      --text-mid: #9BA3B5;
-      --text-dim: #5D6578;
-      --accent: #E8A838;
-      --accent-dim: rgba(232, 168, 56, 0.1);
-      --accent-border: rgba(232, 168, 56, 0.2);
-      --blue: #3B82F6;
-      --blue-dim: rgba(59, 130, 246, 0.1);
-      --heading: 'Sora', sans-serif;
-      --body: 'Sora', sans-serif;
-      --serif: 'Source Serif 4', Georgia, serif;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--body);
-      font-size: 15px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ─── NAV ─── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(12, 14, 19, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    nav .nav-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-    }
-
-    nav .logo {
-      font-family: var(--heading);
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--text);
-      letter-spacing: -0.3px;
-    }
-
-    nav .logo span { color: var(--accent); }
-
-    nav .nav-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-
-    nav .nav-links a {
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--text-mid);
-      text-decoration: none;
-      letter-spacing: 0.3px;
-      transition: color 0.2s;
-    }
-
-    nav .nav-links a:hover { color: var(--accent); }
-
-    /* ─── SECTIONS ─── */
-    section {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    .section-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 24px;
-    }
-
-    .section-tag::before {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    h2 {
-      font-family: var(--heading);
-      font-size: 1.8rem;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-
-    /* ─── HERO ─── */
-    #hero {
-      padding-top: 140px;
-      padding-bottom: 80px;
-      position: relative;
-    }
-
-    /* Decorative gradient orb */
-    #hero::after {
-      content: '';
-      position: absolute;
-      top: 60px;
-      right: -100px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(232, 168, 56, 0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-badges {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 28px;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 100px;
-    }
-
-    .badge.primary {
-      color: var(--accent);
-      background: var(--accent-dim);
-      border: 1px solid var(--accent-border);
-    }
-
-    .badge.secondary {
-      color: var(--text-mid);
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-    }
-
-    .hero-name {
-      font-family: var(--heading);
-      font-size: clamp(2.8rem, 6vw, 4rem);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 24px;
-    }
-
-    .hero-name .highlight { color: var(--accent); }
-
-    .hero-bio {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--text-mid);
-      max-width: 620px;
-      margin-bottom: 36px;
-    }
-
-    .hero-links {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .hero-links a {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.82rem;
-      font-weight: 500;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      transition: all 0.2s;
-    }
-
-    .hero-links a svg { width: 16px; height: 16px; fill: currentColor; }
-
-    .hero-links .btn-primary {
-      color: var(--bg);
-      background: var(--accent);
-    }
-    .hero-links .btn-primary:hover {
-      background: #d4962e;
-    }
-
-    .hero-links .btn-ghost {
-      color: var(--text-mid);
-      border: 1px solid var(--border);
-      background: transparent;
-    }
-    .hero-links .btn-ghost:hover {
-      border-color: var(--border-light);
-      color: var(--text);
-    }
-
-    /* ─── ABOUT ─── */
-    #about {
-      padding-top: 80px;
-      padding-bottom: 80px;
-    }
-
-    .about-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 8px;
-    }
-
-    .about-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px;
-    }
-
-    .about-card h3 {
-      font-family: var(--heading);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 14px;
-    }
-
-    .about-card p, .about-card .edu-line {
-      font-size: 0.92rem;
-      line-height: 1.6;
-      color: var(--text);
-    }
-
-    .edu-line { margin-bottom: 10px; }
-    .edu-line:last-child { margin-bottom: 0; }
-    .edu-line .school { color: var(--text-mid); font-size: 0.85rem; }
-
-    .focus-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .focus-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.92rem;
-      color: var(--text);
-      padding: 8px 12px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      transition: border-color 0.2s;
-    }
-
-    .focus-item:hover {
-      border-color: var(--accent-border);
-    }
-
-    .focus-icon {
-      color: var(--accent);
-      font-size: 0.55rem;
-      flex-shrink: 0;
-    }
-
-    .about-card.full {
-      grid-column: 1 / -1;
-    }
-
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .skill-chip {
-      font-size: 0.78rem;
-      font-weight: 500;
-      padding: 6px 14px;
-      border-radius: 8px;
-      white-space: nowrap;
-    }
-
-    .skill-chip.lang {
-      color: var(--accent);
-      background: var(--accent-dim);
-    }
-
-    .skill-chip.vocab {
-      color: var(--blue);
-      background: var(--blue-dim);
-    }
-
-    /* ─── PROJECTS ─── */
-    #projects {
-      padding-top: 80px;
-      padding-bottom: 100px;
-    }
-
-    .projects-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 8px;
-    }
-
-    .project-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-
-    .project-card:hover {
-      border-color: var(--accent-border);
-      transform: translateY(-3px);
-    }
-
-    .project-card:hover .project-arrow {
-      transform: translate(3px, -3px);
-      opacity: 1;
-    }
-
-    .project-banner {
-      height: 6px;
-      background: linear-gradient(90deg, var(--accent) 0%, #F59E0B 50%, #EF4444 100%);
-    }
-
-    .project-card:nth-child(2) .project-banner {
-      background: linear-gradient(90deg, var(--blue) 0%, #8B5CF6 50%, #EC4899 100%);
-    }
-
-    .project-body {
-      padding: 32px 36px 36px;
-    }
-
-    .project-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 6px;
-    }
-
-    .project-head h3 {
-      font-family: var(--heading);
-      font-size: 1.4rem;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-    }
-
-    .project-arrow {
-      color: var(--accent);
-      opacity: 0.4;
-      transition: all 0.25s;
-      flex-shrink: 0;
-      margin-top: 4px;
-      font-size: 1.1rem;
-    }
-
-    .project-type {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
-
-    .project-card:nth-child(2) .project-type {
-      color: var(--blue);
-    }
-
-    /* Pipeline */
-    .pipeline {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .pipe-node {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--text);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      padding: 4px 10px;
-      border-radius: 6px;
-      white-space: nowrap;
-    }
-
-    .pipe-arrow {
-      color: var(--text-dim);
-      font-size: 0.7rem;
-    }
-
-    .project-body > p {
-      font-size: 0.92rem;
-      line-height: 1.7;
-      color: var(--text-mid);
-      margin-bottom: 24px;
-    }
-
-    .tech-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .tech-row span {
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: var(--text-dim);
-      border: 1px solid var(--border);
-      padding: 5px 12px;
-      border-radius: 100px;
-      transition: all 0.2s;
-    }
-
-    .project-card:hover .tech-row span {
-      border-color: var(--border-light);
-      color: var(--text-mid);
-    }
-
-    /* ─── CONTACT ─── */
-    #contact {
-      padding-top: 60px;
-      padding-bottom: 100px;
-      text-align: center;
-    }
-
-    #contact h2 {
-      margin-bottom: 12px;
-    }
-
-    #contact p {
-      color: var(--text-mid);
-      font-size: 0.95rem;
-      margin-bottom: 32px;
-    }
-
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .contact-links a {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-mid);
-      text-decoration: none;
-      padding: 12px 24px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      transition: all 0.2s;
-    }
-
-    .contact-links a:hover {
-      border-color: var(--accent-border);
-      color: var(--accent);
-    }
-
-    .contact-links svg { width: 16px; height: 16px; fill: currentColor; }
-
-    /* ─── DIVIDER ─── */
-    .divider {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    .divider hr {
-      border: none;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ─── FOOTER ─── */
-    footer {
-      text-align: center;
-      padding: 32px 0 48px;
-    }
-
-    footer p {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-    }
-
-    /* ─── ANIMATIONS ─── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 700px) {
-      nav .nav-links { display: none; }
-      #hero { padding-top: 100px; padding-bottom: 48px; }
-      .hero-name { font-size: 2.4rem; }
-      .about-content { grid-template-columns: 1fr; }
-      .project-body { padding: 24px; }
-      .pipeline { gap: 4px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kwasi.agyeman — healthcare data engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+  window.__TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "mode": "dark",
+    "scheme": "terminal",
+    "motion": true
+  }/*EDITMODE-END*/;
+</script>
+
+<style>
+  :root {
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Geist', system-ui, sans-serif;
+
+    /* terminal scheme — dark default */
+    --bg:        #0A0D0E;
+    --bg-1:      #0F1314;
+    --bg-2:      #161B1D;
+    --bg-3:      #1F2629;
+    --line:      #232A2D;
+    --line-2:    #2D3539;
+    --fg:        #E5E9E6;
+    --fg-mid:    #8A938F;
+    --fg-dim:    #5C6360;
+    --green:     #7FCB72;
+    --cyan:      #5FB6CC;
+    --amber:     #E6B450;
+    --magenta:   #C792B0;
+    --red:       #E36968;
+    --accent:    var(--green);
+  }
+
+  [data-mode="light"] {
+    --bg:        #F4F4EE;
+    --bg-1:      #ECECE4;
+    --bg-2:      #E2E2D8;
+    --bg-3:      #D7D7CC;
+    --line:      #C8C8BC;
+    --line-2:    #B5B5A8;
+    --fg:        #181A18;
+    --fg-mid:    #555751;
+    --fg-dim:    #888A82;
+    --green:     #4F8A3B;
+    --cyan:      #2D7A8F;
+    --amber:     #A06B0B;
+    --magenta:   #8E4774;
+    --red:       #B33A38;
+  }
+
+  [data-scheme="terminal"] { --accent: var(--green); }
+  [data-scheme="cyan"]     { --accent: var(--cyan); }
+  [data-scheme="amber"]    { --accent: var(--amber); }
+  [data-scheme="magenta"]  { --accent: var(--magenta); }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.25s, color 0.25s;
+    overflow-x: hidden;
+  }
+
+  /* dot-grid bg — subtle */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, var(--line) 0.7px, transparent 0);
+    background-size: 28px 28px;
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 0;
+  }
+  main, nav, footer { position: relative; z-index: 1; }
+
+  a { color: inherit; }
+  .mono { font-family: var(--mono); }
+
+  /* ── frame ── */
+  .frame { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+
+  /* ── top status bar ── */
+  .statusbar {
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-1);
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(8px);
+  }
+  .sb-inner {
+    display: flex; align-items: center; gap: 20px;
+    height: 36px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-mid);
+  }
+  .sb-host {
+    color: var(--fg);
+    font-weight: 600;
+  }
+  .sb-host .at { color: var(--accent); }
+  .sb-host .host { color: var(--fg-mid); font-weight: 400; }
+  .sb-host .path { color: var(--cyan); font-weight: 400; }
+  .sb-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 2px 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--fg-mid);
+  }
+  .sb-pill .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent), transparent 80%);
+  }
+  .sb-spacer { flex: 1; }
+  .sb-time { color: var(--fg-mid); }
+  .sb-nav { display: flex; gap: 0; }
+  .sb-nav a {
+    padding: 0 12px;
+    height: 36px;
+    display: inline-flex; align-items: center;
+    text-decoration: none;
+    color: var(--fg-mid);
+    border-left: 1px solid var(--line);
+    transition: color 0.15s, background 0.15s;
+  }
+  .sb-nav a:hover { color: var(--accent); background: var(--bg-2); }
+  .sb-nav a .num { color: var(--fg-dim); margin-right: 6px; }
+
+  /* ── hero ── */
+  .hero { padding: 64px 0 48px; }
+
+  .hero-grid { display: grid; grid-template-columns: 1fr 480px; gap: 40px; align-items: start; }
+  .hero-single { max-width: 760px; }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-mid);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-tag .glyph { color: var(--accent); }
+  .hero-tag .ar { color: var(--fg-dim); }
+
+  .hero h1 {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: clamp(2.4rem, 5.2vw, 4.6rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    margin-bottom: 22px;
+    color: var(--fg);
+  }
+  .hero h1 .punct { color: var(--accent); }
+  .hero h1 .role {
+    display: inline-block;
+    color: var(--fg-mid);
+    font-weight: 400;
+    font-size: 0.55em;
+    letter-spacing: 0.02em;
+    vertical-align: 0.18em;
+    margin-left: 4px;
+  }
+
+  .hero-typed {
+    margin: 24px 0 28px;
+    padding: 14px 18px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--fg);
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  .hero-typed .prompt { color: var(--accent); margin-right: 8px; }
+  .hero-typed .typed { color: var(--fg); }
+  .hero-typed .kw { color: var(--magenta); }
+  .hero-typed .str { color: var(--amber); }
+  .hero-typed .id { color: var(--cyan); }
+  .hero-typed .comment { color: var(--fg-dim); }
+  .hero-typed .caret {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--accent);
+    vertical-align: -2px;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .hero-bio {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--fg-mid);
+    max-width: 620px;
+    margin-bottom: 28px;
+    text-wrap: pretty;
+  }
+  .hero-bio b { color: var(--fg); font-weight: 600; }
+
+  .hero-cta {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--fg);
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-2); }
+  .btn.fill {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+  .btn.fill:hover { background: var(--bg); color: var(--accent); }
+  .btn .arr { transition: transform 0.15s; }
+  .btn:hover .arr { transform: translate(2px, -2px); }
+
+  /* ── side panel (right of hero) ── */
+  .panel {
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .panel-h {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-mid);
+  }
+  .panel-h .dots {
+    display: inline-flex; gap: 4px;
+    margin-right: 6px;
+  }
+  .panel-h .dots span {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .panel-h .dots span:nth-child(1) { background: var(--red); opacity: 0.7; }
+  .panel-h .dots span:nth-child(2) { background: var(--amber); opacity: 0.7; }
+  .panel-h .dots span:nth-child(3) { background: var(--green); opacity: 0.7; }
+  .panel-h .ttl { color: var(--fg); }
+  .panel-b { padding: 16px 18px; }
+
+  /* stat cards */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .stat {
+    padding: 14px 16px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stat:nth-child(2n) { border-right: none; }
+  .stat:nth-last-child(-n+2) { border-bottom: none; }
+  .stat .lbl {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-dim);
+    margin-bottom: 6px;
+    display: flex; justify-content: space-between;
+  }
+  .stat .lbl .delta { color: var(--accent); }
+  .stat .val {
+    font-family: var(--mono);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--fg);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .stat .val .unit { color: var(--fg-mid); font-size: 0.7em; font-weight: 400; }
+  .stat .spark { display: block; width: 100%; height: 22px; }
+  .stat .spark path { fill: none; stroke: var(--accent); stroke-width: 1.4; }
+  .stat .spark .area { fill: var(--accent); fill-opacity: 0.12; stroke: none; }
+
+  /* ── section heading ── */
+  .sec { padding: 80px 0; }
+  .sec-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 36px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sec-head .meta {
+    display: flex; align-items: center; gap: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-mid);
+  }
+  .sec-head .meta .num {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sec-head .meta .badge {
+    padding: 2px 8px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--fg-mid);
+  }
+  .sec-head h2 {
+    font-family: var(--sans);
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin-top: 6px;
+    text-wrap: balance;
+    max-width: 760px;
+  }
+  .sec-head h2 .hl { color: var(--accent); }
+
+  /* ── about ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 32px;
+  }
+  .about-bio p {
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: var(--fg);
+    margin-bottom: 18px;
+    text-wrap: pretty;
+  }
+  .about-bio p::before {
+    content: '// ';
+    color: var(--fg-dim);
+    font-family: var(--mono);
+    font-size: 0.9em;
+  }
+  .about-bio p:last-child { color: var(--fg-mid); }
+
+  .schema-table {
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .schema-h {
+    display: grid;
+    grid-template-columns: 32px 1fr 100px;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    color: var(--fg-mid);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .schema-row {
+    display: grid;
+    grid-template-columns: 32px 1fr 100px;
+    gap: 12px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--line);
+    color: var(--fg);
+    transition: background 0.12s;
+  }
+  .schema-row:hover { background: var(--bg-2); }
+  .schema-row:last-child { border-bottom: none; }
+  .schema-row .pk { color: var(--amber); }
+  .schema-row .type { color: var(--cyan); font-size: 11px; }
+  .schema-row .type.fk { color: var(--accent); }
+
+  /* credentials list — replaces schema table */
+  .creds {
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .creds-h {
+    padding: 12px 16px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg-mid);
+  }
+  .cred-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 16px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .cred-row:last-child { border-bottom: none; }
+  .cred-row .cred-yr {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-dim);
+    letter-spacing: 0.04em;
+  }
+  .cred-row.certs .cred-yr { color: var(--accent); }
+  .cred-row .cred-deg {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--fg);
+    margin-bottom: 2px;
+  }
+  .cred-row .cred-inst {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-mid);
+  }
+
+  /* ── capabilities ── */
+  .caps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .cap-block {
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .cap-head {
+    padding: 10px 14px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    display: flex; justify-content: space-between;
+    color: var(--fg-mid);
+  }
+  .cap-head .name { color: var(--fg); font-weight: 600; }
+  .cap-head .ct { color: var(--accent); }
+  .cap-list { padding: 4px 0; }
+  .cap-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 7px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .cap-row:hover { background: var(--bg-2); color: var(--accent); }
+  .cap-row .idx { color: var(--fg-dim); font-size: 10px; }
+  .cap-row .lvl {
+    display: inline-flex; gap: 2px;
+  }
+  .cap-row .lvl span {
+    width: 5px; height: 8px;
+    background: var(--line-2);
+  }
+  .cap-row .lvl span.on { background: var(--accent); }
+
+  /* ── projects ── */
+  .project {
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .project-bar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 10px 18px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-mid);
+  }
+  .project-bar .pid { color: var(--accent); font-weight: 600; }
+  .project-bar .file { color: var(--fg); }
+  .project-bar .file .ext { color: var(--magenta); }
+  .project-bar .tags { display: flex; gap: 6px; margin-left: auto; }
+  .project-bar .tag {
+    padding: 1px 7px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--fg-mid);
+    font-size: 10px;
+  }
+  .project-bar .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .project-body {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 0;
+  }
+
+  .project-left {
+    padding: 28px 32px;
+    border-right: 1px solid var(--line);
+  }
+  .project-left h3 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .project-left h3 a {
+    text-decoration: none;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s, color 0.2s;
+  }
+  .project-left h3 a:hover { color: var(--accent); background-size: 100% 2px; }
+  .project-left h3 .ext {
+    font-family: var(--mono);
+    font-size: 0.5em;
+    color: var(--fg-dim);
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .project-left .tagline {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-mid);
+    margin-bottom: 22px;
+  }
+  .project-left p {
+    font-size: 0.95rem;
+    line-height: 1.62;
+    color: var(--fg-mid);
+    margin-bottom: 14px;
+    text-wrap: pretty;
+  }
+  .project-left p strong { color: var(--fg); font-weight: 600; }
+  .project-left p code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--bg-2);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--accent);
+    border: 1px solid var(--line);
+  }
+
+  .project-right {
+    padding: 24px 24px 24px 24px;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .pr-block .pr-h {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--fg-dim);
+    margin-bottom: 8px;
+    display: flex; justify-content: space-between;
+  }
+
+  /* ascii pipeline */
+  .ascii-pipe {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.55;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px 14px;
+    color: var(--fg);
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .ascii-pipe .box { color: var(--fg); }
+  .ascii-pipe .arr { color: var(--fg-dim); }
+  .ascii-pipe .end { color: var(--accent); font-weight: 600; }
+  .ascii-pipe .lbl { color: var(--cyan); }
+
+  /* mini metric grid for projects */
+  .pr-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .pr-metric {
+    padding: 10px 12px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .pr-metric .lbl {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--fg-dim);
+    margin-bottom: 4px;
+  }
+  .pr-metric .val {
+    font-family: var(--mono);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--fg);
+    line-height: 1.1;
+  }
+  .pr-metric .val .unit { color: var(--fg-mid); font-size: 0.7em; font-weight: 400; }
+
+  /* ── contact ── */
+  .contact { padding: 80px 0 60px; }
+  .contact-card {
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .contact-h {
+    padding: 36px 36px 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .contact-h .meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-mid);
+    margin-bottom: 16px;
+    display: flex; gap: 14px;
+  }
+  .contact-h .meta .ok { color: var(--accent); }
+  .contact-h h2 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--fg);
+    text-wrap: balance;
+    max-width: 720px;
+  }
+  .contact-h h2 .hl { color: var(--accent); font-family: var(--mono); }
+  .contact-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .contact-row {
+    padding: 22px 26px;
+    border-right: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+  .contact-row:last-child { border-right: none; }
+  .contact-row:hover { background: var(--bg-2); }
+  .contact-row .lbl {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--fg-dim);
+    margin-bottom: 6px;
+  }
+  .contact-row .val {
+    font-family: var(--mono);
+    font-size: 0.92rem;
+    color: var(--fg);
+    word-break: break-all;
+  }
+  .contact-row:hover .val { color: var(--accent); }
+
+  /* ── footer / log ── */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 18px 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-dim);
+  }
+  .foot-inner {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .foot-inner .l { display: flex; gap: 16px; flex-wrap: wrap; }
+  .foot-inner .l .ok { color: var(--accent); }
+
+  /* ── motion off ── */
+  [data-motion="false"] .hero-typed .caret { animation: none; }
+  [data-motion="false"] .sb-pill .dot { box-shadow: none; }
+
+  /* ── responsive ── */
+  @media (max-width: 980px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; }
+    .caps { grid-template-columns: 1fr; }
+    .project-body { grid-template-columns: 1fr; }
+    .project-left { border-right: none; border-bottom: 1px solid var(--line); }
+    .contact-rows { grid-template-columns: 1fr; }
+    .contact-row { border-right: none; border-bottom: 1px solid var(--line); }
+    .contact-row:last-child { border-bottom: none; }
+    .sb-nav a { padding: 0 10px; font-size: 10px; }
+    .sb-pill { display: none; }
+    .stats { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .frame { padding: 0 16px; }
+    .sb-nav { display: none; }
+    .sb-time { display: none; }
+  }
+</style>
 </head>
-<body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-inner">
-      <div class="logo">K<span>.</span> Agyeman</div>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+<body data-mode="dark" data-scheme="terminal" data-motion="true">
+
+  <!-- STATUS BAR -->
+  <nav class="statusbar" data-screen-label="Statusbar">
+    <div class="frame sb-inner">
+      <span class="sb-host">Kwasi Agyeman<span class="host">, PharmD</span></span>
+      <span class="sb-spacer"></span>
+      <span class="sb-time mono" id="sb-clock">--:--:-- PT</span>
+      <ul class="sb-nav" style="list-style:none;display:flex;">
+        <li><a href="#about"><span class="num">01</span>About</a></li>
+        <li><a href="#capabilities"><span class="num">02</span>Capabilities</a></li>
+        <li><a href="#work"><span class="num">03</span>Work</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-badges">
-      <span class="badge primary">PharmD</span>
-      <span class="badge primary">MS Health Informatics</span>
-      <span class="badge secondary">ACHIP</span>
-      <span class="badge secondary">BCMTMS</span>
-    </div>
-    <h1 class="hero-name">
-      Hi, I'm <span class="highlight">Kwasi Agyeman</span>
-    </h1>
-    <p class="hero-bio">
-      Pharmacist, Clinical Informaticist, and Healthcare Data Engineer. I build pipelines that transform 
-      raw clinical, genomic and claims data into standardized, research-ready models — bridging 
-      clinical domain expertise with modern data infrastructure.
-    </p>
-    <div class="hero-links">
-      <a href="https://www.linkedin.com/in/kwasi-a-2853ba21a/" target="_blank" rel="noopener" class="btn-primary">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
-      <a href="mailto:drkallu86@gmail.com" class="btn-ghost">
-        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        Email
-      </a>
-    </div>
-  </section>
+  <main>
 
-  <div class="divider"><hr></div>
+    <!-- HERO -->
+    <section class="hero" data-screen-label="01 Hero">
+      <div class="frame">
+        <div class="hero-single">
+          <div class="hero-tag">
+            <span>Healthcare Data Engineer</span>
+            <span class="ar">·</span>
+            <span>Pharmacist</span>
+            <span class="ar">·</span>
+            <span>Informaticist</span>
+          </div>
+          <h1>Kwasi Agyeman<span class="punct">,</span> <span class="role">PharmD, MS, ACHIP, BCMTMS</span></h1>
 
-  <!-- ABOUT -->
-  <section id="about" class="fade-in">
-    <div class="section-tag">About</div>
-    <h2>Background</h2>
-    <div class="about-content">
-      <div class="about-card">
-        <h3>Education</h3>
-        <div class="edu-line">
-          Doctor of Pharmacy<br><span class="school">Loma Linda University</span>
-        </div>
-        <div class="edu-line">
-          MS Health Informatics<br><span class="school">Loma Linda University</span>
-        </div>
-        <div class="edu-line">
-          BS Computer Science<br><span class="school">University of the People</span>
-        </div>
-      </div>
-      <div class="about-card">
-        <h3>Focus Areas</h3>
-        <div class="focus-list">
-          <div class="focus-item">
-            <span class="focus-icon">◆</span>
-            <span>Clinical Data Standardization</span>
-          </div>
-          <div class="focus-item">
-            <span class="focus-icon">◆</span>
-            <span>OMOP CDM &amp; Vocabulary Mapping</span>
-          </div>
-          <div class="focus-item">
-            <span class="focus-icon">◆</span>
-            <span>Healthcare NLP &amp; Data Pipelines</span>
-          </div>
-          <div class="focus-item">
-            <span class="focus-icon">◆</span>
-            <span>EHR Systems &amp; Epic Willow</span>
-          </div>
-          <div class="focus-item">
-            <span class="focus-icon">◆</span>
-            <span>Clinical Terminology Standards</span>
-          </div>
-        </div>
-      </div>
-      <div class="about-card full">
-        <h3>Technical Skills</h3>
-        <div class="skills-grid">
-          <span class="skill-chip lang">Python</span>
-          <span class="skill-chip lang">SQL</span>
-          <span class="skill-chip lang">PySpark</span>
-          <span class="skill-chip lang">dbt</span>
-          <span class="skill-chip lang">dlt</span>
-          <span class="skill-chip lang">DuckDB</span>
-          <span class="skill-chip lang">Airflow</span>
-          <span class="skill-chip vocab">OMOP CDM</span>
-          <span class="skill-chip vocab">SNOMED</span>
-          <span class="skill-chip vocab">RxNorm</span>
-          <span class="skill-chip vocab">ICD-10</span>
-          <span class="skill-chip vocab">LOINC</span>
-          <span class="skill-chip vocab">NDC</span>
-          <span class="skill-chip vocab">CPT / HCPCS</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider" style="margin-top: 80px;"><hr></div>
-
-  <!-- PROJECTS -->
-  <section id="projects" class="fade-in">
-    <div class="section-tag">Projects</div>
-    <h2>Selected Work</h2>
-    <div class="projects-grid">
-
-      <!-- TXWC -->
-      <a href="https://github.com/saywurdson/txwc" target="_blank" rel="noopener" class="project-card">
-        <div class="project-banner"></div>
-        <div class="project-body">
-          <div class="project-head">
-            <h3>TX Workers' Comp Analytics</h3>
-            <span class="project-arrow">↗</span>
-          </div>
-          <p class="project-type">Data Pipeline · OMOP CDM · Dashboard</p>
-          <div class="pipeline">
-            <span class="pipe-node">Socrata API</span>
-            <span class="pipe-arrow">→</span>
-            <span class="pipe-node">dlt</span>
-            <span class="pipe-arrow">→</span>
-            <span class="pipe-node">DuckDB</span>
-            <span class="pipe-arrow">→</span>
-            <span class="pipe-node">dbt</span>
-            <span class="pipe-arrow">→</span>
-            <span class="pipe-node">OMOP CDM v5.4</span>
-            <span class="pipe-arrow">→</span>
-            <span class="pipe-node">Streamlit</span>
-          </div>
-          <p>
-            End-to-end pipeline that extracts Texas workers' compensation medical billing data 
-            from the Texas Open Data Portal, transforms it through a 3-layer dbt architecture 
-            with 48 SQL models, and loads it into the OMOP Common Data Model. Maps ICD-9/10 → SNOMED, 
-            NDC → RxNorm, and HCPCS/CPT → standard concepts. Includes a 7-tab Streamlit dashboard 
-            covering injury profiles, cost analytics, opioid monitoring, provider networks, and 
-            geographic distribution.
+          <p class="hero-bio">
+            I build pipelines that turn raw clinical and claims data into <b>research ready data sets</b>.
           </p>
-          <div class="tech-row">
-            <span>Python</span>
-            <span>dlt</span>
-            <span>dbt</span>
-            <span>DuckDB</span>
-            <span>OMOP CDM</span>
-            <span>Streamlit</span>
-            <span>Plotly</span>
-            <span>Docker</span>
+
+          <div class="hero-cta">
+            <a href="#work" class="btn fill">View Work <span class="arr">↗</span></a>
+            <a href="https://www.linkedin.com/in/kwasi-a-2853ba21a/" target="_blank" rel="noopener" class="btn">LinkedIn <span class="arr">↗</span></a>
+            <a href="mailto:drkallu86@gmail.com" class="btn">Email <span class="arr">↗</span></a>
           </div>
         </div>
-      </a>
+      </div>
+    </section>
 
-      <!-- Claims DB -->
-      <a href="https://github.com/saywurdson/claims_db" target="_blank" rel="noopener" class="project-card">
-        <div class="project-banner"></div>
-        <div class="project-body">
-          <div class="project-head">
-            <h3>Claims DB</h3>
-            <span class="project-arrow">↗</span>
+    <!-- ABOUT -->
+    <section id="about" class="sec" data-screen-label="02 About">
+      <div class="frame">
+        <div class="sec-head">
+          <div class="meta">
+            <span class="num">§ 01</span>
+            <span class="badge">About</span>
           </div>
-          <p class="project-type">Synthetic Data · OMOP CDM · Tuva</p>
-          <p>
-            Synthetic Medicare patient cohort generated with Synthea, loaded into both the 
-            OMOP CDM (via OHDSI/dbt-synthea) and the Tuva health data framework using DuckDB. 
-            Includes 305 California Medicare beneficiaries with clinical records (SNOMED, LOINC, RxNorm) 
-            and CMS Blue Button RIF claims (Part A/B/D), cross-format patient identity bridging, 
-            and dbt-based transformation pipelines for both data models.
-          </p>
-          <div class="tech-row">
-            <span>Python</span>
-            <span>DuckDB</span>
-            <span>dbt</span>
-            <span>Synthea</span>
-            <span>OMOP CDM</span>
-            <span>Tuva</span>
-            <span>CMS BFD/RIF</span>
-            <span>Docker</span>
+          <h2>A clinician's eye for data integrity, an engineer's grasp of the <span class="hl">model underneath</span>.</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-bio">
+            <p>I work at the intersection of clinical practice and data engineering. After years at the bedside, I now design pipelines that turn raw clinical, claims, and pharmacy data into standardized models researchers and analysts can actually use.</p>
+            <p>The goal is simple: build infrastructure that respects the vocabulary, the provenance, and the people on the other side of the data.</p>
+          </div>
+
+          <div class="creds">
+            <div class="creds-h">Education &amp; Credentials</div>
+            <div class="cred-row">
+              <span class="cred-yr">2021</span>
+              <div class="cred-body">
+                <div class="cred-deg">Doctor of Pharmacy</div>
+                <div class="cred-inst">Loma Linda University</div>
+              </div>
+            </div>
+            <div class="cred-row">
+              <span class="cred-yr">2024</span>
+              <div class="cred-body">
+                <div class="cred-deg">M.S. Health Informatics</div>
+                <div class="cred-inst">Loma Linda University</div>
+              </div>
+            </div>
+            <div class="cred-row">
+              <span class="cred-yr">2025</span>
+              <div class="cred-body">
+                <div class="cred-deg">B.S. Computer Science</div>
+                <div class="cred-inst">University of the People</div>
+              </div>
+            </div>
           </div>
         </div>
-      </a>
+      </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- CAPABILITIES -->
+    <section id="capabilities" class="sec" style="padding-top:0;" data-screen-label="03 Capabilities">
+      <div class="frame">
+        <div class="sec-head">
+          <div class="meta">
+            <span class="num">§ 02</span>
+            <span class="badge">Capabilities</span>
+          </div>
+          <h2>Languages, vocabularies, and frameworks I work with daily.</h2>
+        </div>
 
-  <div class="divider"><hr></div>
+        <div class="caps">
+          <div class="cap-block">
+            <div class="cap-head"><span class="name">// languages &amp; tools</span><span class="ct">5</span></div>
+            <div class="cap-list">
+              <div class="cap-row"><span class="idx">L01</span><span>Python</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></div>
+              <div class="cap-row"><span class="idx">L02</span><span>SQL</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></div>
+              <div class="cap-row"><span class="idx">L03</span><span>dbt</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></div>
+              <div class="cap-row"><span class="idx">L04</span><span>DuckDB</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></div>
+              <div class="cap-row"><span class="idx">L05</span><span>dlt / PySpark</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+            </div>
+          </div>
+          <div class="cap-block">
+            <div class="cap-head"><span class="name">// vocabularies</span><span class="ct">5</span></div>
+            <div class="cap-list">
+              <div class="cap-row"><span class="idx">V01</span><span>OMOP CDM v5.4</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></div>
+              <div class="cap-row"><span class="idx">V02</span><span>SNOMED CT</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></div>
+              <div class="cap-row"><span class="idx">V03</span><span>RxNorm / NDC</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></div>
+              <div class="cap-row"><span class="idx">V04</span><span>ICD-10-CM/PCS</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span></div>
+              <div class="cap-row"><span class="idx">V05</span><span>LOINC · CPT · HCPCS</span><span class="lvl"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span></div>
+            </div>
+          </div>
 
-  <!-- CONTACT -->
-  <section id="contact" class="fade-in">
-    <div class="section-tag" style="justify-content: center;">Get in Touch</div>
-    <h2>Let's Connect</h2>
-    <p>I'm always open to new opportunities and collaborations.</p>
-    <div class="contact-links">
-      <a href="https://www.linkedin.com/in/kwasi-a-2853ba21a/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
-      <a href="mailto:drkallu86@gmail.com">
-        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        Email
-      </a>
-    </div>
-  </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work" class="sec" style="padding-top:0;" data-screen-label="04 Work">
+      <div class="frame">
+        <div class="sec-head">
+          <div class="meta">
+            <span class="num">§ 03</span>
+            <span class="badge">Selected Work</span>
+          </div>
+          <h2>Recent projects in healthcare data pipelines and <span class="hl">OMOP modeling</span>.</h2>
+        </div>
+
+        <!-- PROJECT 01 -->
+        <article class="project">
+          <div class="project-bar">
+            <span class="status-dot"></span>
+            <span class="pid">Project 1</span>
+            <span class="tags">
+              <span class="tag">data pipeline</span>
+              <span class="tag">OMOP v5.4</span>
+              <span class="tag">streamlit</span>
+            </span>
+          </div>
+          <div class="project-body">
+            <div class="project-left">
+              <h3><a href="https://github.com/saywurdson/txwc" target="_blank" rel="noopener">TX Workers' Comp Analytics<span class="ext">↗</span></a></h3>
+              <div class="tagline">// 12 raw datasets → 20+ OMOP CDM v5.4 tables</div>
+              <p>End-to-end pipeline pulling Texas DWC medical billing data from <code>data.texas.gov</code> via the Socrata API, enriched with reference data from <strong>RxNav and VSAC FHIR</strong>, and transformed through a <strong>3-layer dbt architecture</strong> (staging → intermediate → marts).</p>
+              <p>Maps <code>ICD-9/10 → SNOMED</code>, <code>NDC → RxNorm</code>, and <code>HCPCS/CPT → standard concepts</code> via custom dbt macros, with hash-based deterministic <code>person_id</code> across professional (CMS-1500), institutional (UB-04), and pharmacy (DWC-066) bills. Adds workers'-comp-specific OMOP enrichments — injury-date observations to anchor <code>observation_period</code>, employer FEIN observations for cohort segmentation, and no-fault cost math that surfaces contractual write-offs invisible in standard claims models.</p>
+              <p>Closes with a 7-tab <strong>Streamlit dashboard</strong> covering injury profiles, opioid prescribing, provider networks, and geographic distribution.</p>
+            </div>
+            <div class="project-right">
+              <div class="pr-block">
+                <div class="pr-h"><span>pipeline</span><span style="color:var(--accent);">live</span></div>
+                <pre class="ascii-pipe">  ┌─────────────┐
+  │ Socrata API │  <span class="lbl">extract</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │     dlt     │  <span class="lbl">load</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │   DuckDB    │  <span class="lbl">store</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │     dbt     │  <span class="lbl">transform</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │ <span class="end">OMOP v5.4</span>   │  <span class="lbl">model</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │  Streamlit  │  <span class="lbl">serve</span>
+  └─────────────┘</pre>
+              </div>
+              <div class="pr-block">
+                <div class="pr-h"><span>metrics</span><span>2024–25</span></div>
+                <div class="pr-metrics">
+                  <div class="pr-metric"><div class="lbl">raw sources</div><div class="val">12</div></div>
+                  <div class="pr-metric"><div class="lbl">omop tables</div><div class="val">20+</div></div>
+                  <div class="pr-metric"><div class="lbl">dbt models</div><div class="val">48</div></div>
+                  <div class="pr-metric"><div class="lbl">dashboard</div><div class="val">7<span class="unit">/tabs</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 02 -->
+        <article class="project">
+          <div class="project-bar">
+            <span class="status-dot"></span>
+            <span class="pid">Project 2</span>
+            <span class="tags">
+              <span class="tag">synthetic data</span>
+              <span class="tag">OMOP + tuva</span>
+              <span class="tag">duckdb</span>
+            </span>
+          </div>
+          <div class="project-body">
+            <div class="project-left">
+              <h3><a href="https://github.com/saywurdson/claims_db" target="_blank" rel="noopener">Claims DB<span class="ext">↗</span></a></h3>
+              <div class="tagline">// 305-patient ca medicare cohort · two parallel data models</div>
+              <p>Synthetic 305-patient California Medicare cohort generated with <strong>Synthea</strong> and exported in two parallel formats: <strong>Synthea native CSV</strong> (clinical layer in SNOMED, LOINC, RxNorm, CVX) and <strong>CMS Blue Button RIF</strong> (Medicare claims, pipe-delimited, with real ICD-10-CM and HCPCS codes).</p>
+              <p>Both formats land in DuckDB and feed two dbt projects in lockstep — OHDSI's <strong>dbt-synthea</strong> producing OMOP CDM v5.4, and a custom loader producing <strong>Tuva</strong> input tables plus 17 analytic marts (HCC, AHRQ, CCSR, readmissions, financial PMPM).</p>
+              <p>The goal is to simulate a <strong>harmonized dataset</strong> that joins clinical and claims data for the same patients. The core engineering is the <strong>BFD↔Synthea identity bridge</strong>: BFD truncates patient names to 15/14 characters and emits dates as <code>DD-Mon-YYYY</code>, so a natural-key join handles the alignment and a canonical Synthea UUID becomes <code>person_id</code> across both data models — letting clinical events and claims be stitched together without losing referential integrity.</p>
+            </div>
+            <div class="project-right">
+              <div class="pr-block">
+                <div class="pr-h"><span>metrics</span><span>2025</span></div>
+                <div class="pr-metrics">
+                  <div class="pr-metric"><div class="lbl">cohort</div><div class="val">305</div></div>
+                  <div class="pr-metric"><div class="lbl">bfd claims</div><div class="val">14k</div></div>
+                  <div class="pr-metric"><div class="lbl">part D evts</div><div class="val">5.4k</div></div>
+                  <div class="pr-metric"><div class="lbl">tuva marts</div><div class="val">17</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    </section>
+
+  </main>
 
   <footer>
-    <p>&copy; 2026 Kwasi Agyeman</p>
+    <div class="frame foot-inner">
+      <div class="l">
+        <span>Last revised May 2026</span>
+      </div>
+      <div>© 2026 Kwasi Agyeman</div>
+    </div>
   </footer>
 
-  <!-- Scroll animation -->
   <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
+    // live clock
+    (function clock(){
+      const el = document.getElementById('sb-clock');
+      function tick(){
+        const d = new Date();
+        const fmt = new Intl.DateTimeFormat('en-US',{
+          hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'America/Los_Angeles'
+        }).format(d);
+        if (el) el.textContent = fmt + ' PT';
+      }
+      tick(); setInterval(tick, 1000);
+    })();
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    // typed query rotator (disabled)
+    (function typer_disabled(){
+      const out = document.getElementById('typed-out');
+      if (!out) return;
+      const lines = [
+        { text: 'dbt run --select tag:omop --target prod', tokens: [
+          {t:'dbt', cls:'kw'},{t:' run --select '},{t:'tag:omop', cls:'str'},{t:' --target '},{t:'prod', cls:'id'}
+        ]},
+        { text: 'SELECT * FROM omop.condition_occurrence WHERE person_id = 42;', tokens: [
+          {t:'SELECT', cls:'kw'},{t:' * '},{t:'FROM', cls:'kw'},{t:' omop.', cls:''},{t:'condition_occurrence', cls:'id'},{t:' '},{t:'WHERE', cls:'kw'},{t:' person_id = '},{t:'42', cls:'str'},{t:';'}
+        ]},
+        { text: 'python -m txwc.extract --source socrata --since 2024-01-01', tokens: [
+          {t:'python', cls:'kw'},{t:' -m txwc.', cls:''},{t:'extract', cls:'id'},{t:' --source '},{t:'socrata', cls:'str'},{t:' --since '},{t:'2024-01-01', cls:'str'}
+        ]},
+        { text: '# map NDC → RxNorm via dbt macro', tokens: [
+          {t:'# map NDC → RxNorm via dbt macro', cls:'comment'}
+        ]},
+      ];
+      let li = 0;
+      function renderUpTo(line, n){
+        // walk tokens by char count up to n
+        let used = 0; let html = '';
+        for (const tok of line.tokens){
+          if (used >= n) break;
+          const need = Math.min(tok.t.length, n - used);
+          const slice = tok.t.slice(0, need);
+          if (tok.cls) html += `<span class="${tok.cls}">${esc(slice)}</span>`;
+          else html += esc(slice);
+          used += need;
+        }
+        return html;
+      }
+      function esc(s){ return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+      function loop(){
+        const line = lines[li];
+        let i = 0;
+        const typeStep = () => {
+          if (document.body.getAttribute('data-motion') === 'false') {
+            out.innerHTML = renderUpTo(line, line.text.length);
+            setTimeout(()=>{ li=(li+1)%lines.length; loop(); }, 1800);
+            return;
+          }
+          if (i <= line.text.length){
+            out.innerHTML = renderUpTo(line, i);
+            i++;
+            setTimeout(typeStep, 28 + Math.random()*30);
+          } else {
+            setTimeout(eraseStep, 1500);
+          }
+        };
+        const eraseStep = () => {
+          if (document.body.getAttribute('data-motion') === 'false') return;
+          if (i > 0){
+            i--; out.innerHTML = renderUpTo(line, i);
+            setTimeout(eraseStep, 12);
+          } else {
+            li = (li+1) % lines.length;
+            setTimeout(loop, 200);
+          }
+        };
+        typeStep();
+      }
+      loop();
+    })();
+  </script>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel">
+    const { useEffect: __ue } = React;
+    function PortfolioTweaks() {
+      const [t, setTweak] = useTweaks(window.__TWEAK_DEFAULTS);
+      __ue(() => {
+        const b = document.body;
+        b.setAttribute("data-mode", t.mode);
+        b.setAttribute("data-scheme", t.scheme);
+        b.setAttribute("data-motion", String(!!t.motion));
+      }, [t.mode, t.scheme, t.motion]);
+      return (
+        <TweaksPanel title="Tweaks">
+          <TweakSection label="Theme" />
+          <TweakRadio label="Mode" value={t.mode}
+            options={[{value:"dark",label:"Dark"},{value:"light",label:"Light"}]}
+            onChange={(v)=>setTweak("mode",v)} />
+          <TweakSelect label="Accent" value={t.scheme}
+            options={[
+              {value:"terminal",label:"Terminal Green"},
+              {value:"cyan",label:"Cyan"},
+              {value:"amber",label:"Amber"},
+              {value:"magenta",label:"Magenta"}
+            ]}
+            onChange={(v)=>setTweak("scheme",v)} />
+          <TweakSection label="Motion" />
+          <TweakToggle label="Animations" value={!!t.motion}
+            onChange={(v)=>setTweak("motion",v)} />
+        </TweaksPanel>
+      );
+    }
+    const __r = document.createElement("div");
+    document.body.appendChild(__r);
+    ReactDOM.createRoot(__r).render(<PortfolioTweaks />);
   </script>
 
 </body>
