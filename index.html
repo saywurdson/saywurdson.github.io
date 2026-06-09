@@ -1056,6 +1056,28 @@
             </div>
             <div class="project-right">
               <div class="pr-block">
+                <div class="pr-h"><span>pipeline</span><span style="color:var(--accent);">dbt</span></div>
+                <pre class="ascii-pipe">  ┌─────────────┐
+  │  MIMIC-III  │  <span class="lbl">source</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │   staging   │  <span class="lbl">stg_*</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │ intermediate│  <span class="lbl">int_*</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │ <span class="end">OMOP v5.4</span>   │  <span class="lbl">cdm_*</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │    marts    │  <span class="lbl">kpi_*</span>
+  └─────────────┘</pre>
+              </div>
+              <div class="pr-block">
                 <div class="pr-h"><span>metrics</span><span>v1.4</span></div>
                 <div class="pr-metrics">
                   <div class="pr-metric"><div class="lbl">patients</div><div class="val">46.5k</div></div>
