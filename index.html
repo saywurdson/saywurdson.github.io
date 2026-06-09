@@ -980,6 +980,94 @@
           </div>
         </article>
 
+        <!-- PROJECT 03 -->
+        <article class="project">
+          <div class="project-bar">
+            <span class="status-dot"></span>
+            <span class="pid">Project 3</span>
+            <span class="tags">
+              <span class="tag">critical care</span>
+              <span class="tag">OMOP v5.4</span>
+              <span class="tag">dbt</span>
+            </span>
+          </div>
+          <div class="project-body">
+            <div class="project-left">
+              <h3><a href="https://github.com/saywurdson/mimic-iv-dbt" target="_blank" rel="noopener">MIMIC-IV → OMOP CDM<span class="ext">↗</span></a></h3>
+              <div class="tagline">// ~30 MIMIC-IV source tables → 21 OMOP CDM v5.4 tables</div>
+              <p>A DuckDB-native re-implementation of the OHDSI/MIMIC <strong>BigQuery ETL</strong>, transforming the <strong>MIMIC-IV</strong> critical-care dataset (~30 tables across the <code>hosp</code> and <code>icu</code> modules) into OMOP CDM v5.4 through four composable dbt layers — <code>staging → intermediate → omop → marts</code>.</p>
+              <p>Source values are mapped to standard concepts via the <strong>OHDSI Athena vocabulary</strong> plus custom seed fixes, emitting the <strong>21 OMOP CDM tables</strong> in an <code>omop</code> schema with the vocabulary loaded alongside in a <code>vocab</code> schema. Staging and intermediate models build into a throwaway scratch database so the deliverable stays lean.</p>
+              <p>A <code>marts</code> schema rolls the OMOP tables up into ready-made critical-care KPIs — cohort summary, in-hospital &amp; 30-day mortality, readmission, and length of stay — surfaced through a <strong>Streamlit dashboard</strong>. No credentialed patient data is included in the repo.</p>
+            </div>
+            <div class="project-right">
+              <div class="pr-block">
+                <div class="pr-h"><span>pipeline</span><span style="color:var(--accent);">dbt</span></div>
+                <pre class="ascii-pipe">  ┌─────────────┐
+  │  MIMIC-IV   │  <span class="lbl">source</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │   staging   │  <span class="lbl">src_*</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │ intermediate│  <span class="lbl">lk_*</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │ <span class="end">OMOP v5.4</span>   │  <span class="lbl">cdm_*</span>
+  └──────┬──────┘
+         │
+  ┌──────▼──────┐
+  │    marts    │  <span class="lbl">kpi_*</span>
+  └─────────────┘</pre>
+              </div>
+              <div class="pr-block">
+                <div class="pr-h"><span>metrics</span><span>OMOP v5.4</span></div>
+                <div class="pr-metrics">
+                  <div class="pr-metric"><div class="lbl">src tables</div><div class="val">~30</div></div>
+                  <div class="pr-metric"><div class="lbl">omop tables</div><div class="val">21</div></div>
+                  <div class="pr-metric"><div class="lbl">dbt layers</div><div class="val">4</div></div>
+                  <div class="pr-metric"><div class="lbl">kpi marts</div><div class="val">9</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 04 -->
+        <article class="project">
+          <div class="project-bar">
+            <span class="status-dot"></span>
+            <span class="pid">Project 4</span>
+            <span class="tags">
+              <span class="tag">critical care</span>
+              <span class="tag">OMOP v5.4</span>
+              <span class="tag">duckdb</span>
+            </span>
+          </div>
+          <div class="project-body">
+            <div class="project-left">
+              <h3><a href="https://github.com/saywurdson/mimic-iii-dbt" target="_blank" rel="noopener">MIMIC-III → OMOP CDM<span class="ext">↗</span></a></h3>
+              <div class="tagline">// 46,520-patient MIMIC-III v1.4 cohort → OMOP CDM v5.4</div>
+              <p>A sibling pipeline that maps the <strong>MIMIC-III v1.4</strong> release (26 relational tables) onto the <strong>same OMOP CDM v5.4 output layer</strong> as <code>mimic-iv-dbt</code>, with MIMIC-III-specific staging, intermediate, and <code>gcpt_*</code> concept-mapping seeds adapted from <strong>MIT-LCP/mimic-omop</strong>.</p>
+              <p>DuckDB reads the raw CSVs, maps source values to standard concepts via the <strong>Athena vocabulary</strong>, and emits the <strong>21 OMOP CDM tables</strong> plus a <code>marts</code> schema of clinical KPIs — ready for OHDSI tooling (<strong>ATLAS, Achilles, HADES</strong>) or plain SQL.</p>
+              <p>Built over the full cohort — <strong>46,520 patients</strong>, 58,976 hospital admissions, and 71,573 ICU stays — with a <strong>Streamlit dashboard</strong> on top. MIMIC-III is ICU-centric: ≈98% of admissions include an ICU stay.</p>
+            </div>
+            <div class="project-right">
+              <div class="pr-block">
+                <div class="pr-h"><span>metrics</span><span>v1.4</span></div>
+                <div class="pr-metrics">
+                  <div class="pr-metric"><div class="lbl">patients</div><div class="val">46.5k</div></div>
+                  <div class="pr-metric"><div class="lbl">icu stays</div><div class="val">71.6k</div></div>
+                  <div class="pr-metric"><div class="lbl">in-hosp mort</div><div class="val">10<span class="unit">%</span></div></div>
+                  <div class="pr-metric"><div class="lbl">omop tables</div><div class="val">21</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
       </div>
     </section>
 
